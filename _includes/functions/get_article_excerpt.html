@@ -1,0 +1,32 @@
+{% if include.params.url %}
+  {% assign post_url = include.params.url | relative_url %}
+{% else %}
+  {% assign post_url = post.url | relative_url %}
+{% endif %}
+
+{% if include.params.article %}
+  {% assign article = include.params.article %}
+{% endif %}
+
+{% if include.params.lang %}
+  {% assign lang = include.params.lang %}
+{% else %}
+  {% assign lang = lang | default: site.lang | default: "en" %}
+{% endif %}
+
+{% if include.params.excerpt %}
+  {% assign manual_excerpt = include.params.excerpt %}
+{% else %}
+  {% assign manual_excerpt = "Click here to " %}
+{% endif %}
+
+{%- assign functions_html_content = site.pages | where: "name", "functions.html" | first -%}
+{%- if functions_html_content -%}
+  {%- assign functions_html = functions_html_content.content -%}
+  {%- assign functions_html = functions_html | replace: "<script>", "&lt;script&gt;" | replace: "</script>", "&lt;/script&gt;" -%}
+  {%- include functions.html -%}
+{%- endif -%}
+
+{% assign _article = manual_excerpt | strip_html %}
+
+{% assign return = _article %}
